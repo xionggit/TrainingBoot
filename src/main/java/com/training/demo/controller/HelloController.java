@@ -41,7 +41,7 @@ public class HelloController extends BaseController {
     }
 
     @ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "用户ID",paramType= "path", required = true, dataType = "Long")
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public DemoDto getDemoDto(@PathVariable Long id) {
         return new DemoDto(2, "李四");
@@ -49,7 +49,7 @@ public class HelloController extends BaseController {
 
     @ApiOperation(value="更新用户详细信息", notes="根据url的id来指定更新对象，并根据传过来的user信息来更新用户详细信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户ID", paramType= "path", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "DemoDto")
     })
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
@@ -58,7 +58,7 @@ public class HelloController extends BaseController {
     }
 
     @ApiOperation(value="删除用户", notes="根据url的id来指定删除对象")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "用户ID", paramType= "path", required = true, dataType = "Long")
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public String deleteDemoDtoById(@PathVariable Long id) {
         return "success";
