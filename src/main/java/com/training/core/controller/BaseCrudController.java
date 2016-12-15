@@ -39,7 +39,7 @@ public class BaseCrudController<T extends BaseEntity> extends BaseController<T> 
 	 * 根据Id查询实体
 	 */
 	@ApiOperation(value="根据Id查询实体", notes="getEntityById")
-	@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer")
+	@ApiImplicitParam(name = "id", value = "用户ID", paramType= "path", required = true, dataType = "Integer")
     @RequestMapping(value = "/getEntityById/{id}", method = RequestMethod.GET)
 	public @ResponseBody ResultDataDto getEntityById(@PathVariable(value = "id") final Integer id) {
     	T entity = baseDao.getEntityById(entityClass, id);

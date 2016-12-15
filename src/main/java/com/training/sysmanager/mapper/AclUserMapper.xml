@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.training.sysmanager.mapper.AclUserMapper">
+  <resultMap id="BaseResultMap" type="com.training.sysmanager.entity.AclUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="role_ids" jdbcType="VARCHAR" property="roleIds" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+  </resultMap>
+  
+  <select id="findAclUserByName" resultMap="BaseResultMap">
+    SELECT * FROM tbl_sysmgr_acluser WHERE user_name = #{userName}   
+  </select>
+  
+  <select id="getEntityById" resultMap="BaseResultMap">
+    SELECT * FROM tbl_sysmgr_acluser WHERE id = #{id}   
+  </select>
+  
+</mapper>

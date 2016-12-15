@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 消息队列接收类
  */
-@Component
+//@Component
 @RabbitListener(queues = "hello")
 public class DemoRabbitMqReceiver {
 

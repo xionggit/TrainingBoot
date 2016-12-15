@@ -14,10 +14,13 @@ import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
+import com.sun.mail.handlers.text_html;
 import com.training.core.annotation.MapperClass;
 import com.training.core.dao.BaseDao;
 import com.training.core.dto.FlexiPageDto;
 import com.training.core.entity.BaseEntity;
+import com.training.sysmanager.entity.AclUser;
+import com.training.sysmanager.mapper.AclUserMapper;
 
 @Repository("myBatisBaseDao")
 @SuppressWarnings("unchecked")
@@ -29,6 +32,9 @@ public class MyBatisBaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 	
 	private SqlSession sqlSession;
 	
+	@Resource
+	private AclUserMapper mapper;
+	
 	@SuppressWarnings("rawtypes")
 	public <M extends Mapper<T>> M getMapper(Class cls){
 		MapperClass mapperClass = (MapperClass) cls.getAnnotation(MapperClass.class);
@@ -39,8 +45,10 @@ public class MyBatisBaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 	}
 
 	@Override
-	public T getEntityById(Class<T> cls, Integer id) {
-		return this.getMapper(cls).selectByPrimaryKey(id);
+	public T getEntityById(Class<T> cls, Object id){
+//	    throw new RuntimeException("没有重写该方法");
+	    
+	    return this.getMapper(cls).selectByPrimaryKey(id);
 	}
 
 	@Override

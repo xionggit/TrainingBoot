@@ -8,4 +8,6 @@ import com.training.sysmanager.entity.AclUser;
  */
 public interface AclUserService extends BaseService<AclUser> {
     AclUser findAclUserByName(String userName);
+    
+//    AclUser getEntityById(Object id);
 }

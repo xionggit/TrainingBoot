@@ -77,6 +77,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>asm</artifactId>
+					<groupId>org.ow2.asm</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -84,11 +90,17 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
-		<dependency>  
+		<!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency> -->
+		
+		<!-- <dependency>  
 	        <groupId>org.springframework.boot</groupId>  
 	        <artifactId>spring-boot-starter-tomcat</artifactId>  
 	        <scope>provided</scope>  
-	    </dependency>
+	    </dependency> -->
 	    
 	    <dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -98,6 +110,18 @@
 	    <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+		<dependency>
+		    <groupId>cglib</groupId>
+		    <artifactId>cglib</artifactId>
+		    <version>3.1</version>
 		</dependency>
 		
 		<!-- Email -->
@@ -140,7 +164,7 @@
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper</artifactId>
-			<version>3.3.7</version>
+			<version>3.3.9</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->

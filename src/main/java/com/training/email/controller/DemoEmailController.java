@@ -26,7 +26,7 @@ public class DemoEmailController extends BaseController {
 	@ApiOperation(value="测试邮件发送", notes="getEntityById")
     @RequestMapping(value = "/getTestDemoEmail", method = RequestMethod.GET)
 	public @ResponseBody ResultDataDto getEntityById() throws Exception {
-		String sendTo = "1265400024@qq.com";
+		String sendTo = "shaotianxiong@gomeholdings.com";
 		String titel = "测试邮件标题";
 		String content = "测试邮件内容";
 		emailService.sendSimpleMail(sendTo, titel, content);

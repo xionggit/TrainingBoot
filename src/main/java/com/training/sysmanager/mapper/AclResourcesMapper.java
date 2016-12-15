@@ -32,6 +32,10 @@ public interface AclResourcesMapper extends Mapper<AclResources> {
     /**
      * 根据 resourceIdsArray 资源ID数组 查询资源
      */
-//    @Select("SELECT resources.*,CONCAT('role_',CONCAT((SELECT pronoun FROM tbl_sysmgr_aclresources WHERE id = resources.parent_id),'_'),requesttype.pronoun) AS authority FROM tbl_sysmgr_aclresources AS resources LEFT JOIN tbl_sysmgr_aclrequesttype AS requesttype ON resources.request_type_id = requesttype.id WHERE resources.type = 'R' AND resources.id IN (${resourceIds})")
+//    @Select("SELECT resources.*,CONCAT('role_',CONCAT((SELECT pronoun FROM tbl_sysmgr_aclresources WHERE "
+//            + "id = resources.parent_id),'_'),requesttype.pronoun) AS authority FROM tbl_sysmgr_aclresources AS resources "
+//            + "LEFT JOIN tbl_sysmgr_aclrequesttype AS requesttype ON "
+//            + "resources.request_type_id = requesttype.id WHERE resources.type = 'R' AND resources.id IN (${resourceIds})")
+    
     List<AclResources> selectAclResourcesByResourceIds(@Param("resourceIdsArray")String [] resourceIdsArray);
 }

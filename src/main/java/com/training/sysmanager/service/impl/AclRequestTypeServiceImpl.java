@@ -28,4 +28,9 @@ public class AclRequestTypeServiceImpl extends MyBatisBaseServiceImpl<AclRequest
     public int selectCountByNeId(AclRequestType aclRequestType){
         return 0;
     }
+
+    @Override
+    public AclRequestType getEntityById(int i) {
+        return getMapper().selectByPrimaryKey(i);
+    }
 }

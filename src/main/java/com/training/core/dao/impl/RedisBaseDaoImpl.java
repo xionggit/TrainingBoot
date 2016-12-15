@@ -25,7 +25,7 @@ public class RedisBaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     protected RedisTemplate<Serializable, Serializable> redisTemplate;
 
 	@Override
-	public T getEntityById(final Class<T> cls, final Integer id) {
+	public T getEntityById(final Class<T> cls, final Object id) {
 		return redisTemplate.execute(new RedisCallback<T>() {
             @Override
             public T doInRedis(RedisConnection connection) throws DataAccessException {

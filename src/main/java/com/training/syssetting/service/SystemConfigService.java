@@ -5,4 +5,6 @@ import com.training.syssetting.entity.SystemConfig;
 
 public interface SystemConfigService extends BaseService<SystemConfig> {
 
+    SystemConfig getEntityById(Object id);
+
 }

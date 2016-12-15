@@ -12,7 +12,7 @@ public interface BaseDao<T extends BaseEntity> {
 	/**
 	 * 根据Id查询实体
 	 */
-	public T getEntityById(final Class<T> cls, final Integer id);
+	public T getEntityById(Class<T> cls, final Object id);
 	
 	/**
 	 * 新增实体

@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-@ImportResource({"classpath:dubbo.xml"})
-public class SpringBootServlet extends SpringBootServletInitializer {
+//@ImportResource({"classpath:dubbo.xml"})
+public class SpringBootServlet{
 
 	// jar启动
 	public static void main(String[] args) throws InterruptedException {
@@ -18,9 +18,9 @@ public class SpringBootServlet extends SpringBootServletInitializer {
     }
 
 	// tomcat war启动
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SpringBootServlet.class);
-    }
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//        return application.sources(SpringBootServlet.class);
+//    }
 
 }

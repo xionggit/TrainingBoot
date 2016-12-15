@@ -58,5 +58,18 @@ public class DemoRedisController extends BaseRedisController<DemoRedis> {
     	httpSession.setAttribute(session.getKey(), session.getValue());
 		return ResultDataDto.addAddSuccess();
 	}
+	
+	/**
+     * 新增测试Session2
+     */
+    @ApiOperation(value="新增测试Session2", notes="getEntityById2")
+    @RequestMapping(value = "/addSesstion2", method = RequestMethod.GET)
+    public @ResponseBody ResultDataDto addEntity2(String key,String value,HttpSession httpSession) {
+        DemoSessionDto session = new DemoSessionDto();
+        session.setKey(key);
+        session.setValue(value);
+        httpSession.setAttribute(session.getKey(), session.getValue());
+        return ResultDataDto.addAddSuccess();
+    }
     
 }

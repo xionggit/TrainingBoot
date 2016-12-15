@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -42,6 +43,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
         String resourceIds = aclRoleResourcesService.selectResourceIdsByRoleIds(aclUser.getRoleIds());
         List<AclResources> aclResourcesList = aclResourcesService.selectAclResourcesByResourceIds(resourceIds);
         for (AclResources aclResources : aclResourcesList) {
+            System.out.println("Authority-----"+aclResources.getAuthority().toUpperCase());
         	auths.add(new SimpleGrantedAuthority(aclResources.getAuthority().toUpperCase()));
 		}
 //        auths.addAll(aclResourcesList.stream().map(resources -> new SimpleGrantedAuthority(resources.getAuthority().toUpperCase())).collect(Collectors.toList()));

@@ -54,13 +54,13 @@ public class MySecurityMetadataSource  implements FilterInvocationSecurityMetada
     //4
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-        System.out.println("metadata : getAllConfigAttributes");
+        System.out.println("------------metadata : getAllConfigAttributes");
         return null;
     }
     //3
     @Override
     public boolean supports(Class<?> clazz) {
-        System.out.println("metadata : supports");
+        System.out.println("------------metadata : supports");
         return true;
     }
 

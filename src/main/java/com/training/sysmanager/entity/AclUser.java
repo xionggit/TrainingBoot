@@ -1,6 +1,12 @@
 package com.training.sysmanager.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -8,6 +14,7 @@ import tk.mybatis.mapper.annotation.NameStyle;
 import tk.mybatis.mapper.code.Style;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.training.core.annotation.MapperClass;
 import com.training.core.entity.BaseEntity;
 import com.training.sysmanager.mapper.AclUserMapper;
@@ -19,14 +26,12 @@ import com.training.sysmanager.mapper.AclUserMapper;
 @Table(name="tbl_sysmgr_acluser")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @MapperClass(AclUserMapper.class)
-public class AclUser extends BaseEntity {
-    public AclUser(){}
+public class AclUser extends BaseEntity implements Serializable{
 
-    public AclUser(String userName,String userPwd){
-        this.userName = userName;
-        this.userPwd = userPwd;
-    }
-
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 387659050151643679L;
     /**
      * 用户名
      */

@@ -16,8 +16,8 @@ import com.training.rabbitmq.sender.DemoRabbitMqSender;
 /**
  * 测试Rabbit MQ
  */
-@RestController
-@RequestMapping(value="/rabbitmq")
+//@RestController
+//@RequestMapping(value="/rabbitmq")
 public class DemoRabbitMqController {
 
 	@Autowired
