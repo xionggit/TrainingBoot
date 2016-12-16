@@ -6,10 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AuthenticatedVoter;
@@ -20,24 +21,29 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.event.LoggerListener;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import com.mysql.jdbc.Messages;
 import com.training.sysmanager.service.AclResourcesService;
 import com.training.sysmanager.service.impl.AclResourcesServiceImpl;
 
@@ -60,14 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.addFilterAfter(MyUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		// 开启默认登录页面
-		http/*.authorizeRequests().anyRequest().authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+		http.authorizeRequests().anyRequest().authenticated().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
 			public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
 				fsi.setSecurityMetadataSource(mySecurityMetadataSource);
 				fsi.setAccessDecisionManager(accessDecisionManager());
 				fsi.setAuthenticationManager(authenticationManagerBean());
 				return fsi;
 			}
-		}).and()*/.exceptionHandling().authenticationEntryPoint(
+		}).and().exceptionHandling().authenticationEntryPoint(
 		        /*默认登录页的url*/
 		        new LoginUrlAuthenticationEntryPoint("/login.html")).
 		and().logout().logoutSuccessUrl("/index.html").permitAll();
@@ -92,8 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	    
-	    
 		// 自定义UserDetailsService
 //	    auth.authenticationProvider(authenticationProvider());
 //		auth.userDetailsService(userDetailsService);
@@ -114,32 +118,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return myUsernamePasswordAuthenticationFilter;
 	}
 	
-	/**
-	 * <!-- 消息本地化 -->
-    <beans:bean id="messageSource"
-                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <beans:property name="basenames">
-            <beans:array>
-                <!-- 自定义消息在前 -->
-                <beans:value>classpath:locale/securityMessages</beans:value>
-                <beans:value>
-                    classpath:org/springframework/security/messages
-                </beans:value>
-            </beans:array>
-        </beans:property>
-    </beans:bean>
-	 * @return
-	 */
-	ReloadableResourceBundleMessageSource messageSource(){
+	public MessageSource messageSource(){
 	    ReloadableResourceBundleMessageSource messages = new ReloadableResourceBundleMessageSource();
-	    messages.addBasenames("classpath:locale/securityMessages");
-	    messages.addBasenames("classpath:org/springframework/security/messages");
+	    messages.addBasenames("classpath:locale/securityMessages","classpath:org/springframework/security/messages");
 	    
 	    return messages;
 	}
 
 	@Bean
-	AccessDeniedHandler accessDeniedHandler() {
+	public AccessDeniedHandler accessDeniedHandler() {
 		AccessDeniedHandlerImpl accessDeniedHandler = new AccessDeniedHandlerImpl();
 		accessDeniedHandler.setErrorPage("/securityException/accessDenied");
 		return accessDeniedHandler;
@@ -179,6 +166,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		RockUserDetailsAuthenticationProvider provider = new RockUserDetailsAuthenticationProvider();
 		//自定义userDetailsService
 		provider.setUserDetailsService(userDetailsService);
+		//国际化
+		provider.setMessageSource(messageSource());
 		//自定义provider
 		providers.add(provider);
 		
@@ -206,7 +195,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean(name = "failureHandler")
 	public SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
-		return new SimpleUrlAuthenticationFailureHandler("/getLoginError");
+	    // post 提交后返回页面
+		return new SimpleUrlAuthenticationFailureHandler("/login?login_error=1");
+		// post提交返回json数据
+//		return new SimpleUrlAuthenticationFailureHandler("/getLoginError");
 	}
 
 	@Bean(name = "aclResourcesService")

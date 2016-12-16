@@ -1,13 +1,17 @@
 package com.training.sysmanager.controller;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.training.core.controller.BaseController;
 import com.training.core.dto.ResultDataDto;
@@ -17,7 +21,13 @@ import com.training.core.exception.RuntimeServiceException;
 @RestController
 @RequestMapping("/")
 public class LoginController extends BaseController {
-	
+    
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public ModelAndView login() throws SQLException{
+        
+        return new ModelAndView("login");
+        
+    }
 	
 	// 登录成功，获取当前用户信息
 	@RequestMapping(value = "getCurrentLoginedUser")

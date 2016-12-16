@@ -5,8 +5,9 @@
         <title>Spring Security Example </title>
     </head>
     <body>
-        <div th:if="${param.error}">
-            [[${#SPRING_SECURITY_LAST_EXCEPTIO.message}]]!
+        <div th:if="${param.login_error}"
+             th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+             <span th:text="${errorMsg}">Wrong input!</span>
         </div>
         <div th:if="${param.logout}">
             You have been logged out.
