@@ -1,7 +1,10 @@
 package com.training.sysmanager.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,9 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.training.core.controller.BaseController;
 import com.training.core.entity.BaseEntity;
 import com.training.core.mybatis.DataSourceContextHolder;
+import com.training.core.util.XlsxUtil;
 import com.training.sysmanager.entity.AclUser;
+import com.training.sysmanager.entity.VoteRecordMemory;
 import com.training.sysmanager.service.AclRequestTypeService;
 import com.training.sysmanager.service.AclUserService;
+import com.training.sysmanager.service.TestExport;
 
 /**
  * Created by Athos on 2016-07-14.
@@ -28,6 +34,9 @@ public class TestController extends BaseController {
 
     @Resource
     private AclUserService aclUserService;
+    
+    @Resource
+    private TestExport export;
     
     @Resource
     private AclRequestTypeService aclRequestTypeService;
@@ -118,5 +127,39 @@ public class TestController extends BaseController {
     public ModelAndView getHello2() throws SQLException{
         
         return new ModelAndView("test/home");
+    }
+    
+    @RequestMapping(value = "/exportXlsx", method = RequestMethod.GET)
+    public void exportXlsx() throws SQLException, IOException{
+        
+       List<VoteRecordMemory> records =  export.selectAll();
+       String[] row = new String[5];
+       
+       ArrayList<String[]> infoArray = new ArrayList<String[]>();
+       
+       row[0] = "主键";
+       row[1] = "用户id";
+       row[2] = "组id";
+       row[3] = "void";
+       row[4] = "创建时间";
+       
+       infoArray.add(row);
+       
+       for(VoteRecordMemory record : records){
+           row = new String[5];
+           
+           row[0] = record.getId()+"";
+           row[1] = record.getUserId()+"";
+           row[2] = record.getGroupId()+"";
+           row[3] = record.getVoteId()+"";
+           row[4] = record.getCreateTime()+"";
+           
+           infoArray.add(row);
+       }
+       
+       XlsxUtil util = new XlsxUtil();
+       String xls_write_Address = "C:\\Users\\Administrator\\Desktop\\export.xlsx";
+       String sheetName = "sheet";
+       util.write_Excel(xls_write_Address, infoArray, sheetName);
     }
 }
