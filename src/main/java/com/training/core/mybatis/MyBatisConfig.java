@@ -1,6 +1,7 @@
 package com.training.core.mybatis;
 
 import com.github.pagehelper.PageHelper;
+
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -10,10 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.util.Map;
 import java.util.Properties;
 import java.util.HashMap;
@@ -62,6 +66,11 @@ public class MyBatisConfig{
         return proxy;
     }
 
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSourceProxy());
+    }
+    
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactorys() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
