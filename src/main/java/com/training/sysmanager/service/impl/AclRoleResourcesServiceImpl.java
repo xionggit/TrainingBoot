@@ -24,7 +24,7 @@ public class AclRoleResourcesServiceImpl extends MyBatisBaseServiceImpl<AclRoleR
 
     @Override
     public String selectResourceIdsByRoleIds(String roleIds) {
-        String resourceIds = this.getMapper().selectResourceIdsByRoleIds(roleIds);
+        String resourceIds = this.getMapper().selectResourceIdsByRoleIds(roleIds.split(","));
         String [] resourceIdsArray = resourceIds.split(",");
         ArrayList<String> list = new ArrayList<>();
         for(String resourceId : resourceIdsArray){

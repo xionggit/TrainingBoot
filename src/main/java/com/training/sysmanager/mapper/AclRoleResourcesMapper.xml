@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.gomefinance.sysmanager.mapper.AclRoleResourcesMapper">
+  <resultMap id="roleIds" type="cn.com.gomefinance.sysmanager.entity.AclRoleResources">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
+  </resultMap>
+  
+  <select id="selectResourceIdsByRoleIds" resultType="String">
+    SELECT GROUP_CONCAT(resource_ids) FROM tbl_sysmgr_aclroleresources WHERE id in
+        <foreach collection="resourceIdsArray" index="index" item="resourceId" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+  </select>
+  
+</mapper>
