@@ -81,8 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and().authorizeRequests().
 		anyRequest().authenticated().expressionHandler(webSecurityExpressionHandler());
 
+		
 		// 自定义登录页面
-		http.csrf().disable();
+		// 开启csrf，需要页面head里设置<meta th:name="${_csrf.headerName}" th:content="${_csrf.token}"/> 
+        //或者post方式提交增加参数 _csrf=***********
+//      http.csrf().disable();
 
 		// 自定义注销
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login.html")
